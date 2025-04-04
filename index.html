@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Baltimore Weather</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2em;
+      background: #f0f8ff;
+    }
+    #weather {
+      font-size: 1.5em;
+      margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weather in Baltimore, MD</h1>
+  <div id="weather">Loading...</div>
+
+  <script>
+    const apiKey = 'YOUR_API_KEY_HERE'; // Replace this with your OpenWeatherMap API key
+    const city = 'Baltimore';
+    const state = 'MD';
+    const country = 'US';
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&appid=${apiKey}&units=imperial`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const temp = data.main.temp;
+        const desc = data.weather[0].description;
+        const humidity = data.main.humidity;
+
+        document.getElementById('weather').innerHTML = `
+          Temperature: ${temp}°F<br>
+          Condition: ${desc}<br>
+          Humidity: ${humidity}%
+        `;
+      })
+      .catch(error => {
+        document.getElementById('weather').textContent = 'Error fetching weather.';
+        console.error(error);
+      });
+  </script>
+</body>
+</html>
